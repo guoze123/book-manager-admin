@@ -9,6 +9,8 @@
 .DS_Store
 /book-manager-admin/node_modules/
 /book-manager-admin/dist/
+/book-manager/node_modules/
+/book-manager/dist/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
