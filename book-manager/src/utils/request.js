@@ -24,7 +24,7 @@ function tryHideFullScreenLoading() {
 
 // 请求超时时间
 axios.defaults.timeout = 1000 * 60;
-axios.defaults.baseURL = "/api";
+axios.defaults.baseURL = "http://localhost:3000/";
 axios.defaults.withCredentials = true;
 axios.interceptors.request.use(
   config => {
@@ -87,7 +87,6 @@ function apiAxios(url, params) {
       data: options.params,
       headers: {
         "content-type": options.contentType,
-        Authorization: options.token
       }
     }).then(
       function(res) {
@@ -144,7 +143,6 @@ function apiAxiosForm(url, params) {
       data: options.params,
       headers: {
         "content-type": options.contentType,
-        Authorization: options.token
       }
     }).then(
       function(res) {
