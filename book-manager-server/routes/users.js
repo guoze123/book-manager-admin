@@ -4,7 +4,6 @@ let loginDB = require("../data_base/loginDB");
 let registerDB = require("../data_base/registerDB.js");
 /* GET users listing. */
 
-
 // 查找用户名和密码
 router.post("/login", (req, res) => {
   let name = req.body.userName;
@@ -23,22 +22,24 @@ router.post("/login", (req, res) => {
       };
       console.log(data[0]);
       if (data[0] == undefined) {
-        console.log("error");
-        res.send("-1");
+        responseJSON.successful = false;
+        responseJSON.resultHint = "用户名不存在";
+        res.send(responseJSON);
       } else if (data[0] != undefined) {
+        let userInfo = data[0];
         loginDB
           .select_password(name)
           .then((data) => {
-            console.log(data[0].password);
-            if (data[0].password != pass) {
-              console.log("error");
-              res.send("0");
-            } else if (name == "admin") {
-              res.send("1");
-              console.log("管理员登录");
+            console.log(data[0].us_password);
+            if (data[0].us_password !== pass) {
+              responseJSON.successful = false;
+              responseJSON.resultHint = "用户名和密码不匹配";
+              res.send(responseJSON);
             } else {
-              res.send("ok");
-              console.log("学生登录");
+              responseJSON.successful = true;
+              responseJSON.resultHint = "";
+              responseJSON.resultValue = userInfo;
+              res.send(responseJSON);
             }
           })
           .catch((error) => {
@@ -62,11 +63,11 @@ router.post("/register", (req, res) => {
   registerDB
     .select_name(name)
     .then((data) => {
-      if (data[0] != undefined) {
+      if (!!data[0]) {
         res.send("-1");
       } else {
         registerDB
-          .insert_user(name, pass,nickName,sex,email)
+          .insert_user(name, pass, nickName, sex, email)
           .then((data) => {
             console.log(data);
             res.send(data);

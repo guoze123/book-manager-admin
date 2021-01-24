@@ -1,5 +1,5 @@
+const { log } = require('debug');
 let pool=require('./pool');
-
 module.exports={
     // 查找用户名
     select_name(name) {
