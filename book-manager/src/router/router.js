@@ -16,7 +16,38 @@ let router = new Router({
       name: "manager",
       component: manager,
       children: [
-
+        {
+          path: "/manager/home",
+          name: "首页",
+          component: reception,
+        },
+        {
+          path: "/manager/bookManager",
+          name: "图书管理",
+          component: reception,
+        },
+        {
+          path: "/manager/userManager",
+          name: "人员管理",
+          component: reception,
+        },
+        {
+          path: "/manager/setTing",
+          name: "参数设置",
+          component: reception,
+          children: [
+            {
+              path: "/manager/setTing/userManager",
+              name: "出版社管理",
+              component: reception,
+            },
+            {
+              path: "/manager/setTing/userManager",
+              name: "图书类型管理",
+              component: reception,
+            },
+          ]
+        },
       ],
     },
     {

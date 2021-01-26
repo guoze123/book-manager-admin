@@ -52,33 +52,35 @@
 </template>
 
 <script>
-import {systemLogin} from '../api/login.js';
+import { systemLogin } from "../api/login.js";
+import { mapState, mapMutations } from "vuex";
 export default {
   data() {
     return {
       LoginForm: {
         username: "",
-        password: "",
+        password: ""
       },
       rule: {
         username: [
           {
             required: true,
             message: "请输入账号",
-            trigger: "blur",
-          },
+            trigger: "blur"
+          }
         ],
         password: [
           {
             required: true,
             message: "请输入密码！",
-            trigger: "blur",
-          },
+            trigger: "blur"
+          }
         ]
-      },
+      }
     };
   },
   methods: {
+    ...mapMutations(["userInfo_mutations"]),
     reset() {
       this.$refs.LoginForm.resetFields();
     },
@@ -86,51 +88,30 @@ export default {
       this.$router.push("/register");
     },
     submit(formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(valid => {
         if (valid) {
           console.log(this.LoginForm);
-           systemLogin({
-             userName: this.LoginForm.username,
-             password: this.LoginForm.password,
-           }).then((response) => {
-              if (response.data == -1) {
-                this.$message({
-                  type: "error",
-                  message: "用户不存在",
-                });
-                console.log("该用户不存在");
-              } else if (response.data == 0) {
-                this.$message({
-                  type: "error",
-                  message: "密码错误",
-                });
-                console.log("密码错误");
-              } else if (this.LoginForm.validate != this.identifyCode) {
-                console.log("验证码错误");
-                this.$message({
-                  type: "error",
-                  message: "验证码错误",
-                });
-              } else if (response.data == 1) {
-                this.$router.push("/backhome/managebook");
-                // 将返回的数据注入sessionStorage
-                sessionStorage.setItem("username", this.LoginForm.username);
+          systemLogin({
+            userName: this.LoginForm.username,
+            password: this.LoginForm.password
+          })
+            .then(response => {
+              if (response.successful) {
+                this.userInfo_mutations(response.resultValue)
+                // 管理界面
+                sessionStorage.setItem("authorization",new Date().getTime())
+                this.$router.push("/manager")
               } else {
-                this.$router.push("/library/slider");
-                // 将返回的数据注入sessionStorage
-                sessionStorage.setItem("username", this.LoginForm.username);
+                this.$OnlyMessage.error("用户名或密码错误")
               }
             })
-            .catch((error) => {
+            .catch(error => {
               console.log(error);
             });
-        } else {
-          console.log("error submit!!");
-          return false;
         }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -151,7 +132,7 @@ export default {
   width: 300px;
   background: #fff;
   box-shadow: 0 0 10px #b4bccc;
-  padding: 15px 30px ;
+  padding: 15px 30px;
   border-radius: 5px;
 }
 .submitBtn {
@@ -176,4 +157,3 @@ h3 {
   text-align: center;
 }
 </style>
-

@@ -13,7 +13,7 @@
           :unique-opened="true"
         >
           <div class="index-aside-title">
-            <span>国家电网</span>
+            <span>图书管理</span>
           </div>
           <template v-for="(v, index) in this.menudata">
             <el-submenu
@@ -48,6 +48,7 @@
       <el-container class="index-con">
         <el-header>
           <div class="index-header">
+            <div></div>
             <div class="right-menu">
               <el-dropdown class="avatar-container">
                 <div class="avatar-wrapper">
@@ -56,7 +57,7 @@
                     class="user-avatar"
                     alt=""
                   />
-                  <span class="user-name">{{ "sfsdf" }}</span>
+                  <span class="user-name">{{userInfo.us_nickName }}</span>
                   <i class="el-icon-caret-bottom arrow-down"></i>
                 </div>
                 <el-dropdown-menu slot="dropdown">
@@ -77,6 +78,7 @@
 </template>
 
 <script>
+import {mapState} from "vuex"
 export default {
   name: "AdminManager",
   data() {
@@ -86,12 +88,10 @@ export default {
         menudata:[]
     };
   },
-
-  components: {},
+  computed:{
+    ...mapState(['userInfo'])
+  },
   created() {},
-  mounted() {},
-  methods: {},
-  watch: {},
 };
 </script>
 <style lang="scss" scoped>
