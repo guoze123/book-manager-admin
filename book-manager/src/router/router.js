@@ -37,12 +37,12 @@ let router = new Router({
           component: reception,
           children: [
             {
-              path: "/manager/setTing/userManager",
+              path: "/manager/setTing/pressManager",
               name: "出版社管理",
               component: reception,
             },
             {
-              path: "/manager/setTing/userManager",
+              path: "/manager/setTing/bookType",
               name: "图书类型管理",
               component: reception,
             },
