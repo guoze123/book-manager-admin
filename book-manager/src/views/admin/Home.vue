@@ -20,4 +20,4 @@ export default {
   watch: {}
 };
 </script>
-<style lang="" scoped></style>
+<style lang="scss" scoped></style>
