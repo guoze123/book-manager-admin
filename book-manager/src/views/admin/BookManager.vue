@@ -1,30 +1,101 @@
 <template>
   <div>
-    图书管理
+    <div class="search">
+      <div>
+        书名：
+        <el-input placeholder="书名"></el-input>
+      </div>
+      <div>
+        作者：
+        <el-input placeholder="作者名称"></el-input>
+      </div>
+      <div>
+        出版社：
+        <el-input placeholder="出版社"></el-input>
+      </div>
+      <div>
+        类型：
+        <el-input placeholder="类型"></el-input>
+      </div>
+      <div>
+        <el-button type="primary">查询</el-button>
+        <el-button type="primary" @click="openEditBook">添加</el-button>
+      </div>
+    </div>
+    <el-table :data="tableData" style="width: 100%" border>
+      <el-table-column fixed prop="date" label="书名" width="150">
+      </el-table-column>
+      <el-table-column prop="name" label="作者" width="120"> </el-table-column>
+      <el-table-column prop="province" label="类型" width="120">
+      </el-table-column>
+      <el-table-column prop="city" label="出版社" width="120">
+      </el-table-column>
+      <el-table-column prop="address" label="入库时间" width="120">
+      </el-table-column>
+      <el-table-column prop="zip" label="入库总数" width="120">
+      </el-table-column>
+      <el-table-column prop="zip" label="剩余数量" width="120">
+      </el-table-column>
+      <el-table-column prop="zip" label="内容介绍"> </el-table-column>
+      <el-table-column label="操作">
+        <template slot-scope="scope">
+          <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
+            >编辑</el-button
+          >
+          <el-button
+            size="mini"
+            type="danger"
+            @click="handleDelete(scope.$index, scope.row)"
+            >删除</el-button
+          >
+        </template>
+      </el-table-column>
+    </el-table>
+    <EditBook v-if="showEdit"
+    @closeEditBook="closeEditBook"
+    ></EditBook>
   </div>
 </template>
 
 <script>
+import EditBook from "../../components/book-manager/EditBook.vue"
+export default {
+  data() {
+    return {
+      tableData: [],
+      showEdit:false,
+    };
+  },
 
-  export default {
-    name:'',
-    props:[''],
-    data () {
-      return {
-
-      };
+  components: {
+    EditBook
+  },
+  created() {},
+  mounted() {},
+  methods: {
+    closeEditBook(){
+      this.showEdit = false;
     },
+    openEditBook() {
+      this.showEdit = true;
+    }
+  },
 
-    components: {},
-    created() {},
-    mounted() {},
-    methods: {},
-
-    watch: {}
-
+  watch: {}
+};
+</script>
+<style lang="scss" scoped>
+.search{
+  display:flex;
+  margin-bottom: 10px;
+  &>div{
+    display:flex;
+    align-items: center;
+    width: 220px;
+    .el-input{
+      width:150px;
+    }
   }
 
-</script>
-<style lang='' scoped>
-
+}
 </style>

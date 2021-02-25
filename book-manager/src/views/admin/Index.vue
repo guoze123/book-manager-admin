@@ -57,7 +57,7 @@
                     class="user-avatar"
                     alt=""
                   />
-                  <span class="user-name">{{ userInfo.us_nickName }}</span>
+                  <span class="user-name">{{ userInfo ? userInfo.us_nickName : ''}}</span>
                   <i class="el-icon-caret-bottom arrow-down"></i>
                 </div>
                 <el-dropdown-menu slot="dropdown">
@@ -78,7 +78,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState , mapMutations} from "vuex";
 export default {
   name: "AdminManager",
   data() {
@@ -92,7 +92,11 @@ export default {
     ...mapState(["userInfo"])
   },
   created() {
+    this.userInfo_mutations(JSON.parse(sessionStorage.getItem('userInfo')))
     this.menudata = this.$router.options.routes[0].children;
+  },
+  methods:{
+    ...mapMutations(["userInfo_mutations"]),
   },
   watch: {
     $route: {

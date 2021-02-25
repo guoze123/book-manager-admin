@@ -7,6 +7,7 @@ import login from "../views/Login.vue";
 import NProgress from "nprogress";
 import register from "../views/Register.vue";
 import notFound from "../views/404.vue";
+import paramsConfig from "../views/admin/ParamsConfig.vue";
 Vue.use(Router);
 
 let router = new Router({
@@ -34,8 +35,14 @@ let router = new Router({
           component: () =>  import(/* webpackChunkName: "about" */ "../views/admin/UserManager.vue")
         },
         {
+          path: "/manager/LeaveMessage",
+          name: "留言管理",
+          component: () =>  import(/* webpackChunkName: "about" */ "../views/admin/LeaveMessage.vue")
+        },
+        {
           path: "/manager/setTing",
           name: "参数设置",
+          component: paramsConfig,
           children: [
             {
               path: "/manager/setTing/pressManager",
@@ -73,7 +80,7 @@ let router = new Router({
     }
   ]
 });
-// // 全局路由守卫
+//  全局路由守卫
 router.beforeEach((to, form, next) => {
   // 获取token
   NProgress.start();
