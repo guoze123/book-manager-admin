@@ -17,6 +17,7 @@ function getConnection() {
 }
 //执行sql
 function execute(sql) {
+  console.log(sql);
   return new Promise(function (resolve, reject) {
     getConnection()
       .then(function (conn) {

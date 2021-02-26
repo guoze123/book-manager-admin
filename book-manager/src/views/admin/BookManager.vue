@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="height: 100%">
     <div class="search">
       <div>
         书名：
@@ -22,21 +22,21 @@
         <el-button type="primary" @click="openEditBook">添加</el-button>
       </div>
     </div>
-    <el-table :data="tableData" style="width: 100%" border>
-      <el-table-column fixed prop="date" label="书名" width="150">
+    <el-table :data="tableData" style="width: 100%" border height="calc( 100% - 100px )">
+      <el-table-column fixed prop="b_name" label="书名" width="150">
       </el-table-column>
-      <el-table-column prop="name" label="作者" width="120"> </el-table-column>
-      <el-table-column prop="province" label="类型" width="120">
+      <el-table-column prop="b_author" label="作者" width="120"> </el-table-column>
+      <el-table-column prop="b_btid" label="类型" width="120">
       </el-table-column>
-      <el-table-column prop="city" label="出版社" width="120">
+      <el-table-column prop="b_publisher" label="出版社" width="120">
       </el-table-column>
-      <el-table-column prop="address" label="入库时间" width="120">
+      <el-table-column prop="b_intime" label="入库时间" width="120">
       </el-table-column>
-      <el-table-column prop="zip" label="入库总数" width="120">
+      <el-table-column prop="b_booknumall" label="入库总数" width="120">
       </el-table-column>
-      <el-table-column prop="zip" label="剩余数量" width="120">
+      <el-table-column prop="b_booknum" label="剩余数量" width="120">
       </el-table-column>
-      <el-table-column prop="zip" label="内容介绍"> </el-table-column>
+      <el-table-column prop="b_introduce"  show-overflow-tooltip label="内容介绍"> </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
@@ -59,6 +59,7 @@
 
 <script>
 import EditBook from "../../components/book-manager/EditBook.vue"
+import { queryBook } from '../../api/bookManager.js'
 export default {
   data() {
     return {
@@ -70,9 +71,19 @@ export default {
   components: {
     EditBook
   },
-  created() {},
+  created() {
+    this.queryBook()
+  },
   mounted() {},
   methods: {
+    queryBook(bookName = "",bookAuthor = "") {
+      queryBook({
+        bookName:bookName,
+        bookAuthor: bookAuthor
+      }).then((res) =>{
+        this.tableData = res.resultValue
+      })
+    },
     closeEditBook(){
       this.showEdit = false;
     },
