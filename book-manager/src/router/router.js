@@ -7,6 +7,10 @@ import login from '../views/Login.vue'
 import NProgress from "nprogress"
 import register from '../views/Register.vue'
 import notFound from '../views/404.vue';
+
+
+
+
 Vue.use(Router);
 
 let router = new Router({
