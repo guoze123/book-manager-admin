@@ -142,7 +142,7 @@ export default {
               if (response.data == -1) {
                 this.$message({
                   type: "error",
-                  message: "账号不正确",
+                  message: "账号已存在",
                 });
                 console.log("账号不正确");
               } else {

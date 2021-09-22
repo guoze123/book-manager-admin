@@ -6,6 +6,7 @@ var logger = require('morgan');
 var bodyParser = require('body-parser');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var bookRouter = require('./routes/bookManager');
 
 var app = express();
 
@@ -26,7 +27,6 @@ app.all('*', function(req, res, next) {
   console.log(req.headers.origin)
   console.log(req.environ)
   res.header("Access-Control-Allow-Origin", req.headers.origin);
-  // res.header("Access-Control-Allow-Origin", '*');
   res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
   res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
   res.header("Access-Control-Allow-Credentials","true");
@@ -36,6 +36,7 @@ app.all('*', function(req, res, next) {
 })
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/bookManager',bookRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -97,9 +97,9 @@ export default {
           })
             .then(response => {
               if (response.successful) {
-                this.userInfo_mutations(response.resultValue)
                 // 管理界面
                 sessionStorage.setItem("authorization",new Date().getTime())
+                sessionStorage.setItem("userInfo",JSON.stringify(response.resultValue))
                 this.$router.push("/manager")
               } else {
                 this.$OnlyMessage.error("用户名或密码错误")

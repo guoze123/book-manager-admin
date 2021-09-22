@@ -18,17 +18,17 @@
           <template v-for="(v, index) in this.menudata">
             <el-submenu
               :index="index + ''"
-              v-if="v.childSysMenus && v.childSysMenus.length > 0"
+              v-if="v.children && v.children.length > 0"
               :key="v.id"
             >
               <template slot="title">
                 <i :class="v.img"></i>
                 <span slot="title" :title="v.name">{{ v.name }}</span>
               </template>
-              <template v-for="item in v.childSysMenus">
+              <template v-for="item in v.children">
                 <el-menu-item
-                  :index="item.resUrl"
-                  :route="item.resUrl"
+                  :index="item.path"
+                  :route="item.path"
                   :key="item.id"
                 >
                   <i :class="item.img"></i>
@@ -37,7 +37,7 @@
               </template>
             </el-submenu>
             <template v-else>
-              <el-menu-item :index="v.resUrl" :route="v.resUrl" :key="v.id">
+              <el-menu-item :index="v.path" :route="v.path" :key="v.id">
                 <i :class="v.img"></i>
                 <span slot="title" :title="v.name">{{ v.name }}</span>
               </el-menu-item>
@@ -48,7 +48,7 @@
       <el-container class="index-con">
         <el-header>
           <div class="index-header">
-            <div></div>
+            <div>{{$route.name}}</div>
             <div class="right-menu">
               <el-dropdown class="avatar-container">
                 <div class="avatar-wrapper">
@@ -57,12 +57,12 @@
                     class="user-avatar"
                     alt=""
                   />
-                  <span class="user-name">{{userInfo.us_nickName }}</span>
+                  <span class="user-name">{{ userInfo ? userInfo.us_nickName : ''}}</span>
                   <i class="el-icon-caret-bottom arrow-down"></i>
                 </div>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item>
-                    <span >退出登录</span>
+                    <span>退出登录</span>
                   </el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
@@ -78,20 +78,36 @@
 </template>
 
 <script>
-import {mapState} from "vuex"
+import { mapState , mapMutations} from "vuex";
 export default {
   name: "AdminManager",
   data() {
     return {
-        menuactive:"",
-        isCollapse: false,
-        menudata:[]
+      menuactive: "",
+      isCollapse: false,
+      menudata: []
     };
   },
-  computed:{
-    ...mapState(['userInfo'])
+  computed: {
+    ...mapState(["userInfo"])
   },
-  created() {},
+  created() {
+    this.userInfo_mutations(JSON.parse(sessionStorage.getItem('userInfo')))
+    this.menudata = this.$router.options.routes[0].children;
+  },
+  methods:{
+    ...mapMutations(["userInfo_mutations"]),
+  },
+  watch: {
+    $route: {
+      handler(value) {
+        console.log(value);
+        this.menuactive = value.path;
+      },
+
+      immediate: true
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
